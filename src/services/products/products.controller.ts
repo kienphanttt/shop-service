@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -23,13 +24,18 @@ export class ProductsController {
       { name: 'thumb_nail', maxCount: 1 },
     ]),
   )
-  async uploadFile(
+  uploadFile(
     @Body()
     dto: { name: string; description: string; quantity: number; size: string },
     @UploadedFiles()
     files: { images: Express.Multer.File[]; thumb_nail: Express.Multer.File },
   ) {
     return this.productsService.createProduct(dto, files);
+  }
+
+  @Get('id/:id')
+  getProductDetails(@Param('id', new ParseIntPipe()) id: number) {
+    return this.productsService.getProductDetails(id);
   }
 
   @Get('all')

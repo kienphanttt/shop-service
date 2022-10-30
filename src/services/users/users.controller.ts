@@ -1,4 +1,4 @@
-import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -11,5 +11,10 @@ export class UsersController {
     @Query('limit', new ParseIntPipe()) limit: number,
   ) {
     return this.usersService.getUsers({ page, limit });
+  }
+
+  @Get('id/:id')
+  getUserDetails(@Param('id', new ParseIntPipe()) id: number) {
+    return this.usersService.getUserDetails(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GetUsersDto } from './dto/get-users.dto';
@@ -22,6 +22,17 @@ export class UsersService {
     return {
       status: 200,
       users,
+    };
+  }
+
+  async getUserDetails(id: number) {
+    if (!id) throw new BadRequestException('Invalid user id');
+
+    const user = await this.usersRepository.findOneBy({ id });
+
+    return {
+      status: 200,
+      user,
     };
   }
 }

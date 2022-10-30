@@ -7,13 +7,13 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
-export class ProductDetails extends BaseEntity {
+@Entity({ name: 'product_details' })
+export class ProductDetail extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => Product)
-  product: number;
+  product: Product;
   @Column()
   size: string;
   @Column()

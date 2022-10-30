@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Roles } from '../const';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -14,6 +15,6 @@ export class User extends BaseEntity {
   @Column({ default: null, select: false })
   refreshToken: string;
 
-  @Column({ nullable: true, default: 'user' })
+  @Column({ nullable: true, default: Roles.USER })
   role: string;
 }

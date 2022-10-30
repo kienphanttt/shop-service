@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductDetails } from './entity/product-details.entity';
+import { ProductDetail } from './entity/product-details.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductDetails])],
+  imports: [TypeOrmModule.forFeature([ProductDetail])],
 })
-export class ProductSizeModule {}
+export class ProductDetailsModule {}
