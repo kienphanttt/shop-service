@@ -26,7 +26,13 @@ export class ProductsController {
   )
   uploadFile(
     @Body()
-    dto: { name: string; description: string; quantity: number; size: string },
+    dto: {
+      name: string;
+      description: string;
+      quantity: number;
+      size: string;
+      price;
+    },
     @UploadedFiles()
     files: { images: Express.Multer.File[]; thumb_nail: Express.Multer.File },
   ) {

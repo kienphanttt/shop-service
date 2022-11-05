@@ -19,12 +19,12 @@ export class ProductsService {
   ) {}
 
   async createProduct(
-    dto: { name: string; description: string },
+    dto: { name: string; description: string; price: number },
     files: { images: Express.Multer.File[]; thumb_nail: Express.Multer.File },
   ) {
     const thumbNail = files.thumb_nail[0];
 
-    const thumNailPath = `public/data/images/${
+    const thumNailPath = `data/images/${
       Date.now() + '-' + thumbNail.originalname
     }` as string;
 
@@ -34,15 +34,14 @@ export class ProductsService {
       name: dto.name,
       description: dto.description,
       thumbNail: thumNailPath,
+      price: dto.price,
     });
 
     const productDetails = [];
     const productImages = [];
 
     files.images.map((item) => {
-      const image = `public/data/images/${
-        Date.now() + '-' + item.originalname
-      }`;
+      const image = `data/images/${Date.now() + '-' + item.originalname}`;
       fs.writeFileSync(image, item.buffer);
 
       const images = {
