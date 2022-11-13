@@ -1,6 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/services/categories/entity/category.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity({ name: 'products' })
+@Entity({ name: 'songs' })
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,7 +16,10 @@ export class Product extends BaseEntity {
   name: string;
 
   @Column()
-  description: string;
+  mp3Link: string;
+
+  @Column()
+  lyrics: string;
 
   @Column({ nullable: false })
   price: number;
@@ -18,5 +28,14 @@ export class Product extends BaseEntity {
   discount: number;
 
   @Column()
-  thumbNail: string;
+  image: string;
+
+  @Column()
+  singer: string;
+
+  @Column()
+  type: string;
+
+  @OneToOne(() => Category)
+  category: number;
 }
