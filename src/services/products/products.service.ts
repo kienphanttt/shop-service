@@ -7,6 +7,7 @@ import { GetProductsResponse } from './interfaces/get-products.response';
 import { ProductDetail } from '../product-details/entity/product-details.entity';
 import { ProductImages } from '../product-images/entity/product-images.entity';
 import * as fs from 'fs';
+import { CreateProductDto } from './dto/create-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -19,10 +20,12 @@ export class ProductsService {
   ) {}
 
   async createProduct(
-    dto: { name: string; description: string; price: number },
-    files: { images: Express.Multer.File[]; thumb_nail: Express.Multer.File },
+    dto: CreateProductDto,
+    files: { images: Express.Multer.File[]; thumbNail: Express.Multer.File },
   ) {
-    const thumbNail = files.thumb_nail[0];
+    console.log('type', typeof files.images);
+
+    const thumbNail = files.thumbNail[0];
 
     const thumNailPath = `data/images/${
       Date.now() + '-' + thumbNail.originalname

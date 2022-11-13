@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Req,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,25 +19,27 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post('add')
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'images', maxCount: 5 },
-      { name: 'thumb_nail', maxCount: 1 },
-    ]),
-  )
-  uploadFile(
-    @Body()
-    dto: {
-      name: string;
-      description: string;
-      quantity: number;
-      size: string;
-      price;
-    },
-    @UploadedFiles()
-    files: { images: Express.Multer.File[]; thumb_nail: Express.Multer.File },
-  ) {
-    return this.productsService.createProduct(dto, files);
+  // @UseInterceptors(
+  //   FileFieldsInterceptor([
+  //     { name: 'images', maxCount: 5 },
+  //     { name: 'thumb_nail', maxCount: 1 },
+  //   ]),
+  // )
+  uploadFile(@Req() req) {
+    // console.log('type', typeof files.files);
+    console.log('req files', req);
+    // return this.productsService.createProduct(
+    //   { name: 'test p1', description: 'test p1', price: 500 },
+    //   {
+    //     images: files.files,
+    //     thumbNail: files.files[0],
+    //   },
+    // );
+
+    // console.log('dto', dto);
+    // console.log('files', files);
+
+    return 'w';
   }
 
   @Get('id/:id')
