@@ -51,7 +51,7 @@ export class AuthService {
     const user = await this.userRepository.findOneBy({ email: dto.email });
 
     if (user) {
-      throw new BadRequestException('User already exist');
+      throw new BadRequestException('Email already in use');
     }
 
     const playlist = this.playlistRepository.create();

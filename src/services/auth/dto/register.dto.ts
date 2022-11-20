@@ -7,5 +7,6 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   email: string;
+
   role?: string;
 }
