@@ -10,11 +10,14 @@ import { LoginDto } from './dto/login.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { Playlist } from '../playlist/entity/playlist.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Playlist)
+    private playlistRepository: Repository<Playlist>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -51,9 +54,16 @@ export class AuthService {
       throw new BadRequestException('User already exist');
     }
 
+    const playlist = this.playlistRepository.create();
+
+    await playlist.save();
+
+    console.log('playlist', playlist);
+
     await this.userRepository.save({
       ...dto,
       password: await argon2.hash(dto.password),
+      playlist: playlist.id,
     });
 
     return {

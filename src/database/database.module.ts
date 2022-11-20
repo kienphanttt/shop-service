@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'mysql',
       port: 3306,
       host: 'localhost',
-      database: 'shop_service',
+      database: 'music',
       username: 'root',
       password: 'daikax1xktn',
       synchronize: true,

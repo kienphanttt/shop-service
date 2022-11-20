@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Playlist } from 'src/services/playlist/entity/playlist.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Roles } from '../const';
 
 @Entity({ name: 'users' })
@@ -17,4 +25,11 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true, default: Roles.USER })
   role: string;
+
+  @OneToOne(() => Playlist, { eager: true })
+  @JoinColumn()
+  playlist: number;
+
+  @Column({ nullable: true, default: null })
+  avatar: string;
 }

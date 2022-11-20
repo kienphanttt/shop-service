@@ -19,6 +19,8 @@ export class UsersService {
       take: dto.limit,
     });
 
+    console.log('users', users);
+
     return {
       status: 200,
       users,
