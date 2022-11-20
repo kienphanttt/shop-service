@@ -51,6 +51,9 @@ export class SongService {
       relations: {
         createdBy: true,
       },
+      order: {
+        modifiedAt: 'ASC',
+      },
     });
 
     return {

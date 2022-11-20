@@ -51,7 +51,7 @@ export class SongController {
     return this.songsService.updateSong(user.id, id, dto);
   }
 
-  @Delete()
+  @Delete('delete')
   deleteSong(@Query('id', new ParseIntPipe()) id: number) {
     return this.songsService.deleteSong(id);
   }

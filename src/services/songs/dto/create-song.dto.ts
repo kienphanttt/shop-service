@@ -17,7 +17,7 @@ export class CreateSongDto {
   @IsNotEmpty()
   country: string;
   @IsNotEmpty()
-  price: number;
+  price: number | null;
   @IsBoolean()
   @IsNotEmpty()
   isRelaxingWeekend: boolean;
