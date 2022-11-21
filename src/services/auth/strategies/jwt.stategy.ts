@@ -5,10 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import configuration from 'src/config/configuration';
 
 export class JwtStategy extends PassportStrategy(Strategy) {
-  constructor(
-    @Inject(configuration.KEY)
-    jwtConfig: ConfigType<typeof configuration>,
-  ) {
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -20,6 +17,7 @@ export class JwtStategy extends PassportStrategy(Strategy) {
     console.log('payload', payload);
     return {
       id: payload.id,
+      role: payload.role,
     };
   }
 }

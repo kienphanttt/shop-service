@@ -27,6 +27,7 @@ export class AuthService {
       select: {
         id: true,
         password: true,
+        role: true,
       },
     });
     if (!user) throw new BadRequestException('Invalid username or password');
@@ -34,8 +35,11 @@ export class AuthService {
 
     if (!isValidPassword)
       throw new BadRequestException('Invalid username or password');
-
-    const { accessToken, refreshToken } = await this.getTokens(user.id);
+    console.log('user login', user);
+    const { accessToken, refreshToken } = await this.getTokens(
+      user.id,
+      user.role,
+    );
 
     user.refreshToken = refreshToken;
 
@@ -79,7 +83,10 @@ export class AuthService {
       throw new ForbiddenException();
     }
 
-    const { accessToken, refreshToken } = await this.getTokens(decode.id);
+    const { accessToken, refreshToken } = await this.getTokens(
+      decode.id,
+      decode.role,
+    );
 
     return {
       access_token: accessToken,
@@ -87,13 +94,15 @@ export class AuthService {
     };
   }
 
-  async getTokens(userId: number) {
+  async getTokens(userId: number, role: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync({
         id: userId,
+        role,
       }),
       this.jwtService.signAsync({
         id: userId,
+        role,
       }),
     ]);
 

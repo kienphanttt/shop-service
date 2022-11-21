@@ -19,10 +19,8 @@ export class AuthController {
 
   @Get('refresh-token')
   refreshToken(@Req() req: Request) {
-    // return this.authService.refreshToken(req.user.id, req.headers.refreshToken);
     const headers = req.headers as Headers;
     console.log('headers', headers);
-    // return this.authService.refreshToken(headers.refreshToken);
     return 'refresh';
   }
 }

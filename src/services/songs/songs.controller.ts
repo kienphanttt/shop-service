@@ -12,7 +12,9 @@ import {
   Patch,
 } from '@nestjs/common';
 import { UserAuth } from 'src/utils/userAuth';
+import { Roles } from '../auth/decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { RolesGuard } from '../auth/guards/role.guard';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { SongService } from './songs.service';
@@ -22,7 +24,8 @@ export class SongController {
   constructor(private readonly songsService: SongService) {}
 
   @Post('add')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   createProduct(@UserAuth() user: any, @Body() dto: CreateSongDto) {
     return this.songsService.addNewSong(user.id, dto);
   }

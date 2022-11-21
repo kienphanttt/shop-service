@@ -52,7 +52,7 @@ export class SongService {
         createdBy: true,
       },
       order: {
-        modifiedAt: 'ASC',
+        modifiedAt: 'DESC',
       },
     });
 
