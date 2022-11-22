@@ -38,7 +38,7 @@ export class SongController {
   @Get('all')
   getSongs(@Request() req: any) {
     Object.keys(req.query).forEach((item) => {
-      req.query[item] = parseInt(req.query[item]);
+      req.query[item] = Number(req.query[item]);
     });
 
     return this.songsService.getSongs(req.query);

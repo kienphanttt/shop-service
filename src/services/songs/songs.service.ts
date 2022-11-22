@@ -38,10 +38,10 @@ export class SongService {
   }
 
   async getSongs(dto: GetSongsDto): Promise<GetSongsResponse> {
-    const skipProductNumbers = dto.limit * dto.page - 1;
+    const skipSongsNumbers = dto.limit * dto.page - 1;
 
     const songs = await this.songRepository.find({
-      skip: dto.page <= 1 ? 0 : skipProductNumbers,
+      skip: dto.page == 0 ? 0 : skipSongsNumbers,
       take: dto.limit,
       cache: true,
       where: {
@@ -55,7 +55,6 @@ export class SongService {
         modifiedAt: 'DESC',
       },
     });
-
     return {
       status: 200,
       songs,
@@ -63,7 +62,6 @@ export class SongService {
   }
 
   async updateSong(userId: number, id: number, dto: any) {
-    console.log('dto', dto);
     await this.songRepository.update(id, {
       ...dto,
       modifiedAt: new Date().toString(),

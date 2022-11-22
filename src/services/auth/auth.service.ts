@@ -35,7 +35,6 @@ export class AuthService {
 
     if (!isValidPassword)
       throw new BadRequestException('Invalid username or password');
-    console.log('user login', user);
     const { accessToken, refreshToken } = await this.getTokens(
       user.id,
       user.role,
@@ -61,8 +60,6 @@ export class AuthService {
     const playlist = this.playlistRepository.create();
 
     await playlist.save();
-
-    console.log('playlist', playlist);
 
     await this.userRepository.save({
       ...dto,

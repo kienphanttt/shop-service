@@ -8,11 +8,12 @@ import { User } from '../users/entity/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStategy } from './strategies/jwt.stategy';
+require('dotenv').config();
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'qwej12ieh2187edhqwd',
+      secret: process.env.JWT_SECRET,
       signOptions: {
         expiresIn: 3600,
       },
