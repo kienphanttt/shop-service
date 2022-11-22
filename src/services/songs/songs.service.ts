@@ -63,6 +63,7 @@ export class SongService {
   }
 
   async updateSong(userId: number, id: number, dto: any) {
+    console.log('dto', dto);
     await this.songRepository.update(id, {
       ...dto,
       modifiedAt: new Date().toString(),
