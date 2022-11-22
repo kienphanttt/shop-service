@@ -9,6 +9,6 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
-  await app.listen(2345);
+  await app.listen(process.env.PORT || 2345);
 }
 bootstrap();
