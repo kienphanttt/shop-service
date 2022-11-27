@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
+import { CommentsModule } from './comments/comments.module';
 import { FavoriteSongModule } from './favorite-songs/favorite-song.module';
 import { PlaylistModule } from './playlist/playlist.module';
 import { PlaylistsSongsModule } from './playlists-songs/playlist-songs.module';
@@ -14,6 +15,7 @@ import { UsersModule } from './users/users.module';
     PlaylistModule,
     PlaylistsSongsModule,
     AuthModule,
+    CommentsModule,
   ],
 })
 export class ServicesModule {}

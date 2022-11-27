@@ -15,6 +15,7 @@ import { UserAuth } from 'src/utils/userAuth';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/guards/role.guard';
+import { AddSongToPlaylistDto } from './dto/add-song-to-playlist.dto';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { SongService } from './songs.service';
@@ -28,6 +29,25 @@ export class SongController {
   @Roles('admin')
   createProduct(@UserAuth() user: any, @Body() dto: CreateSongDto) {
     return this.songsService.addNewSong(user.id, dto);
+  }
+
+  @Get('playlist')
+  getPlaylistSongs(@Query('playlistId', new ParseIntPipe()) playlist: number) {
+    return this.songsService.getPlaylistSongs(playlist);
+  }
+
+  @Post('add-to-playlist')
+  @UseGuards(JwtAuthGuard)
+  addSongToPlaylist(@UserAuth() user: any, @Body() dto: AddSongToPlaylistDto) {
+    return this.songsService.addSongToPlaylist(user.id, dto);
+  }
+
+  @Delete('/delete-song-from-playlist')
+  deleteSongFromPlaylist(
+    @Query('songId', new ParseIntPipe()) song: number,
+    @Query('songId', new ParseIntPipe()) playlist: number,
+  ) {
+    return this.songsService.deleteSongFromPlaylist({ song, playlist });
   }
 
   @Get('id/:id')

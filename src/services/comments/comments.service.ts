@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import { Comment } from './entity/comment.entity';
 
 @Injectable()
@@ -10,11 +9,13 @@ export class CommentsService {
     @InjectRepository(Comment) private commentRepository: Repository<Comment>,
   ) {}
 
-  async create(dto: CreateCommentDto) {
-    await this.commentRepository.save(dto);
+  async create(dto: any) {
+    console.log('dto', dto);
+    const comment = await this.commentRepository.save(dto);
     return {
       status: 200,
       message: 'Commented',
+      comment,
     };
   }
 
@@ -27,12 +28,13 @@ export class CommentsService {
   }
 
   async getComments(songId: number) {
+    console.log('songId', songId);
     const comments = await this.commentRepository.find({
       where: {
         song: songId,
       },
     });
-
+    console.log('length', comments.length);
     return {
       status: 200,
       comments,

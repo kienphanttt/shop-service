@@ -7,7 +7,10 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { UserAuth } from 'src/utils/userAuth';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -16,8 +19,12 @@ export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
   @Post('create')
-  createComment(@Body() dto: CreateCommentDto) {
-    return this.commentsService.create(dto);
+  @UseGuards(JwtAuthGuard)
+  createComment(@UserAuth() user: any, @Body() dto: CreateCommentDto) {
+    return this.commentsService.create({
+      ...dto,
+      user: user.id,
+    });
   }
 
   @Delete('delete/:id')
