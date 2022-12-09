@@ -10,12 +10,15 @@ import {
   UseGuards,
   Request,
   Patch,
+  UseInterceptors,
+  UploadedFile,
+  Req,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UserAuth } from 'src/utils/userAuth';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/guards/role.guard';
-import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { SongService } from './songs.service';
 
@@ -26,8 +29,9 @@ export class SongController {
   @Post('add')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  createProduct(@UserAuth() user: any, @Body() dto: CreateSongDto) {
-    return this.songsService.addNewSong(user.id, dto);
+  @UseInterceptors(FileInterceptor('file'))
+  createProduct(@UploadedFile() file:Express.Multer.File, @Body() dto: any,@UserAuth() user: any) {
+    return this.songsService.addNewSong(file,user.id,JSON.parse(dto.song))
   }
 
   @Get('id/:id')
@@ -57,5 +61,13 @@ export class SongController {
   @Delete('delete')
   deleteSong(@Query('id', new ParseIntPipe()) id: number) {
     return this.songsService.deleteSong(id);
+  }
+
+  @Post('upload-file')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file:Express.Multer.File,@Body()dto : any){
+    console.log("req",file)
+    console.log("name",dto.name)
+    return 'uploaded'
   }
 }

@@ -6,9 +6,6 @@ export class CreateSongDto {
   name: string;
   @IsString()
   @IsNotEmpty()
-  url: string;
-  @IsString()
-  @IsNotEmpty()
   image: string;
   @IsString()
   @IsNotEmpty()

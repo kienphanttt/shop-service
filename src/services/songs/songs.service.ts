@@ -5,17 +5,26 @@ import { GetSongsDto } from './dto/get-songs.dto';
 import { Song } from './entity/song.entity';
 import { GetSongsResponse } from './interfaces/get-songs.response';
 import { CreateSongDto } from './dto/create-song.dto';
-
+import * as fs from 'fs'
+import {v4} from 'uuid'
 @Injectable()
 export class SongService {
   constructor(
     @InjectRepository(Song) private songRepository: Repository<Song>,
   ) {}
 
-  async addNewSong(userId: number, dto: CreateSongDto) {
+  async addNewSong(file:Express.Multer.File,userId: number, dto: CreateSongDto) {
+
+    const fileExtension = file.originalname.split('.')[1]
+
+    const url = `public/data/songs/${file.originalname}-${v4()}.${fileExtension}`
+
+    fs.writeFileSync(url,file.buffer)
+
     await this.songRepository.save({
       ...dto,
       createdBy: userId,
+      url: url.substring(url.indexOf("/")+1)
     });
 
     return {
@@ -80,5 +89,13 @@ export class SongService {
       status: 200,
       message: 'Product deleted',
     };
+  }
+
+  async uploadFile(dto:any,file: Express.Multer.File){
+
+    console.log("dto",dto)
+    console.log("file",file)
+
+    return 'uploaded'
   }
 }
